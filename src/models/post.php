@@ -58,6 +58,11 @@ class Posts
                 $statement->execute();
             }
         }
+        #Du à un bug que nous n'avons pas pu régler et qui affichait les posts en double, nous avons décidé de couper en deux le tableau qui les contenait.
+        $size = count($feed);
+        $mid = $size / 2;
+        array_splice($feed, $mid);
+
         return $feed;
     }
     public function createPost(string $content, string $userName)
