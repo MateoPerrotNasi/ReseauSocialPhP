@@ -45,12 +45,6 @@ foreach ($posts as $post) {
                 <br>
                 <form action="index.php" method="post">
                     <input type="hidden" name="identifier" value="<?= $post->identifier; ?>">
-                    <input type="hidden" name="action" value="Modifier">
-                    <input type="submit" value="Modifier">
-                </form>
-                <br>
-                <form action="index.php" method="post">
-                    <input type="hidden" name="identifier" value="<?= $post->identifier; ?>">
                     <input type="hidden" name="action" value="Supprimer">
                     <input type="submit" value="Supprimer">
                 </form>

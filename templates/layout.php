@@ -9,6 +9,12 @@
         <?php $pseudo = $_COOKIE['user'];
         echo"<p>Bienvenue sur le site $pseudo</p>"
         ?>
+        <div>
+            <a href="templates/friend_list.php">Liste d'amis</a>
+            <br>
+            <a href="authentification/login.php">Déconnexion</a>
+        </div>
+        <br>
         <span>Entrez un message:</span>
         <br>
         <form action="index.php" method="post">

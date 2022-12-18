@@ -59,19 +59,16 @@ try {
                     (new AddPost())->execute($_POST['content'], $_COOKIE['user']);
                 }
                 break;
-
-            // case 'Modifier':
-            //     if (isset($_POST['content'])) {
-            //         (new ModifyPost())->execute($_POST['content'], $_COOKIE['user']);
-            //     }
-            //    break;
             default:
                 break;
         }
     }
-    $pseudo = $_COOKIE['user'];
-    (new Homepage())->execute($pseudo);
-
+    if (!isset($_COOKIE['user'])){
+        header("location:/ReseauSocial/authentification/login.php");
+    } else {
+        $pseudo = $_COOKIE['user'];
+        (new Homepage())->execute($pseudo);
+    }
 } catch (Exception $e) {
     $errorMessage = $e->getMessage();
 

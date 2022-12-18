@@ -5,6 +5,11 @@
       <link rel="stylesheet" href="../style.css" />
    </head>
    <body>
+    <div>
+        <a href="../index.php">Revenir au Feed</a>
+        <br>
+        <a href="../authentification/login.php">Déconnexion</a>
+    </div>
    <?php
 
         // On récupère le pseudo de l'utilisateur dans le cookie
