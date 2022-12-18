@@ -23,27 +23,41 @@ class Posts
 {
     public DatabaseConnection $connection;
 
-    public function getPosts(): array
+    public function getFeed(string $pseudo): array
     {
-        $statement = $this->connection->getConnection()->query(
-            "SELECT ID, Contenu, PseudoUtilisateur, DateEnvoi, ReactionOui, ReactionNon, ReactionRire, ReactionCoeur, ReactionPleur FROM poste ORDER BY DateEnvoi DESC"
-        );
-        $feed = [];
-        while(($row = $statement->fetch())) {
-            $post = new Post();
-            $post->identifier = $row['ID'];
-            $post->content = $row['Contenu'];
-            $post->userName = $row['PseudoUtilisateur'];
-            $post->reactionYes = $row['ReactionOui'];
-            $post->reactionNo = $row['ReactionNon'];
-            $post->reactionLaugh = $row['ReactionRire'];
-            $post->reactionLove = $row['ReactionCoeur'];
-            $post->reactionSad = $row['ReactionPleur'];
-            $post->dateEnvoi = $row['DateEnvoi'];
-            $feed[] = $post;
-        }
-        $statement->execute();
 
+        $result = $this->connection->getConnection()->query("SELECT * FROM friend_requests WHERE envoyeur = '$pseudo' && friend_verif = 1 OR receveur = '$pseudo' && friend_verif = 1 ");
+        $feed = [];
+        $ami = '';
+        if ($result->rowCount() > 0) {
+            while ($row = $result->fetch()) {
+                $receveur = $row["receveur"];
+                $envoyeur = $row["envoyeur"];
+                if ($receveur == $pseudo) {
+                    $ami = $envoyeur;
+                }
+                else {
+                    $ami = $receveur;
+                }
+                $statement = $this->connection->getConnection()->query(
+                    "SELECT ID, Contenu, PseudoUtilisateur, DateEnvoi, ReactionOui, ReactionNon, ReactionRire, ReactionCoeur, ReactionPleur FROM poste WHERE PseudoUtilisateur = '$ami' OR PseudoUtilisateur = '$pseudo' ORDER BY DateEnvoi DESC"
+                );
+                while(($row = $statement->fetch())) {
+                    $post = new Post();
+                    $post->identifier = $row['ID'];
+                    $post->content = $row['Contenu'];
+                    $post->userName = $row['PseudoUtilisateur'];
+                    $post->reactionYes = $row['ReactionOui'];
+                    $post->reactionNo = $row['ReactionNon'];
+                    $post->reactionLaugh = $row['ReactionRire'];
+                    $post->reactionLove = $row['ReactionCoeur'];
+                    $post->reactionSad = $row['ReactionPleur'];
+                    $post->dateEnvoi = $row['DateEnvoi'];
+                    $feed[] = $post;
+                }
+                $statement->execute();
+            }
+        }
         return $feed;
     }
     public function createPost(string $content, string $userName)

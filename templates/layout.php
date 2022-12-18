@@ -6,7 +6,9 @@
     <title>Principal</title>
 </head>
     <body>
-        <p>Bienvenue sur le site</p>
+        <?php $pseudo = $_COOKIE['user'];
+        echo"<p>Bienvenue sur le site $pseudo</p>"
+        ?>
         <span>Entrez un message:</span>
         <br>
         <form action="index.php" method="post">

@@ -11,11 +11,11 @@ use ReseauSocial\Models\Comment\Comments;
 
 class Homepage
 {
-    public function execute()
+    public function execute(string $pseudo)
     {
         $feed = new Posts();
         $feed->connection = new DatabaseConnection();
-        $posts = $feed->getPosts();
+        $posts = $feed->getFeed($pseudo);
 
         $comments = new Comments();
         $comments->connection = new DatabaseConnection();

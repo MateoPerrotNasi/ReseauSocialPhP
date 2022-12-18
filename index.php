@@ -24,24 +24,27 @@ try {
             setcookie('reaction', $_GET['reaction'], time() + 3600, '/');
             setcookie('identifier', $_GET['identifier'], time() + 3600, '/');
             (new AddReaction())->execute($_GET['identifier'], $_GET['reaction']);
+            header("location:index.php");
         }
         else if ($_COOKIE['reaction'] != $_GET['reaction']) {
             (new RemoveReaction())->execute($_GET['identifier'], $_COOKIE['reaction']);
             (new AddReaction())->execute($_GET['identifier'], $_GET['reaction']);
             setcookie('reaction', $_GET['reaction'], time() + 3600, '/');
             setcookie('identifier', $_GET['identifier'], time() + 3600, '/');
+            header("location:index.php");
         }
         else {
             (new RemoveReaction())->execute($_GET['identifier'], $_GET['reaction']);
             setcookie('reaction', '', time() - 3600, '/');
             setcookie('identifier', '', time() - 3600, '/');
+            header("location:index.php");
         }
     }
     if (isset($_POST['action'])) {
         switch ($_POST['action']) {
             case 'Commenter':
                 if (isset($_POST['identifier']) && isset($_POST['contentComment'])) {
-                    (new AddComment())->execute($_POST['contentComment'],'Krisfies', $_POST['identifier']);
+                    (new AddComment())->execute($_POST['contentComment'],$_COOKIE['user'], $_POST['identifier']);
                 }
                 break;
                 
@@ -53,21 +56,21 @@ try {
             
             case 'Poster':
                 if (isset($_POST['content'])) {
-                    (new AddPost())->execute($_POST['content'], 'Krisfies');
+                    (new AddPost())->execute($_POST['content'], $_COOKIE['user']);
                 }
                 break;
 
             // case 'Modifier':
             //     if (isset($_POST['content'])) {
-            //         (new ModifyPost())->execute($_POST['content'], 'Krisfies');
+            //         (new ModifyPost())->execute($_POST['content'], $_COOKIE['user']);
             //     }
             //    break;
             default:
                 break;
         }
     }
-    
-    (new Homepage())->execute();
+    $pseudo = $_COOKIE['user'];
+    (new Homepage())->execute($pseudo);
 
 } catch (Exception $e) {
     $errorMessage = $e->getMessage();
