@@ -9,8 +9,9 @@ use ReseauSocial\Lib\Database\DatabaseConnection;
 class User
 {
     public string $ID;
-    public string $name;
-    public string $password;
+    public string $pseudo;
+    public string $mdp;
+    public string $email;
 }
 
 class Users
@@ -20,13 +21,13 @@ class Users
     public function getUser(string $identifier): User
     {
         $statement = $this->connection->getConnection()->prepare(
-            "SELECT `Name` FROM `user` WHERE ID = ?"
+            "SELECT `pseudo` FROM `utilisateurs` WHERE id = ?"
         );
         $statement->execute([$identifier]);
 
         $row = $statement->fetch();	
         $user = new User();
-        $user->name = $row['Name']; 
+        $user->name = $row['pseudo']; 
 
         return $user;
     }

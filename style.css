@@ -1,3 +1,31 @@
 .feed a{
     text-decoration: none;
 }
+
+*{
+    font-family:arial;
+ }
+ body{
+    margin:20px;
+ }
+ input{
+    border:solid 2px solid #CCCCCC;
+    margin-bottom:10px;
+    padding:16px;
+    outline:none;
+    border-radius:20px;
+ }
+ 
+ .erreur{
+    color:#CC0000;
+    margin-bottom:10px;
+ }
+ a{
+    font-size:18px;
+    color: green;
+    text-decoration:none;
+    font-weight:normal;
+ }
+ a:hover{
+    text-decoration:underline;
+ }
